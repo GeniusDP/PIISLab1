@@ -3,13 +3,25 @@ package com.kpi.fics.piis.zaranik.models.algorithms;
 import com.kpi.fics.piis.zaranik.utils.IntPair;
 import com.kpi.fics.piis.zaranik.models.Matrix;
 import com.kpi.fics.piis.zaranik.models.Point;
-import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 
-@RequiredArgsConstructor
 public class AStarPerformer implements Algorithm {
+    private final HeuristicCalculator heuristicCalculator;
     private final HeuristicFinder heuristicFinder;
+
+    public AStarPerformer(HeuristicCalculator heuristicCalculator) {
+        if(heuristicCalculator == null){
+            throw new IllegalArgumentException("heuristic should not be null!");
+        }
+        this.heuristicCalculator = heuristicCalculator;
+        this.heuristicFinder = new HeuristicFinder(heuristicCalculator);
+    }
+
+    public AStarPerformer() {
+        this.heuristicCalculator = HeuristicCalculator::manhattan;
+        this.heuristicFinder = new HeuristicFinder(heuristicCalculator);
+    }
 
     private boolean[] closed;
     private boolean[] isOpenNow;

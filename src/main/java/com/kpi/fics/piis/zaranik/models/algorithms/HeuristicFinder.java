@@ -1,12 +1,10 @@
 package com.kpi.fics.piis.zaranik.models.algorithms;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HeuristicFinder {
-    private HeuristicCalculator hc = HeuristicCalculator::manhattan;
+    private final HeuristicCalculator hc;
 
     public int[][] findHeuristic(int n, int m) {
         int[][] h = new int[n * n + m][n * n + m];

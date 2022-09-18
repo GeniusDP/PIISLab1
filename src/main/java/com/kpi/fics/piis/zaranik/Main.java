@@ -4,7 +4,6 @@ import com.kpi.fics.piis.zaranik.models.*;
 import com.kpi.fics.piis.zaranik.models.algorithms.AStarPerformer;
 import com.kpi.fics.piis.zaranik.models.algorithms.Algorithm;
 import com.kpi.fics.piis.zaranik.models.algorithms.HeuristicCalculator;
-import com.kpi.fics.piis.zaranik.models.algorithms.HeuristicFinder;
 import com.kpi.fics.piis.zaranik.utils.MatrixIOUtil;
 
 import java.io.FileInputStream;
@@ -14,7 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
         try (FileInputStream fs = new FileInputStream("src/main/resources/input.txt")) {
-            Algorithm aStar = new AStarPerformer(new HeuristicFinder(HeuristicCalculator::euclid));
+            Algorithm aStar = new AStarPerformer(HeuristicCalculator::euclid);
             Matrix matrix = MatrixIOUtil.readMatrix(fs);
             int stRow = 2, stCol = 9;
             int finRow = 8, finCol = 2;
