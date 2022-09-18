@@ -1,20 +1,11 @@
 package com.kpi.fics.piis.zaranik.models;
 
-
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Arrays;
-
-@Getter
-public class Matrix {
+public final class Matrix {
     public static final int MAX_SIZE = 200;
 
     private final int[][] array;
-    private int n;
-    private int m;
-    @Setter
-    private boolean performed = false;
+    private final int n;
+    private final int m;
 
     public Matrix(int[][] array) {
         if (array == null) {
@@ -25,14 +16,22 @@ public class Matrix {
         this.m = array[0].length;
     }
 
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int[] ints : array) {
-            sb.append(Arrays.toString(ints));
-            sb.append("\n");
+    public int[][] getArray() {
+        int[][] cpyArray = new int[n][m];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                cpyArray[i][j] = array[i][j];
+            }
         }
-        return sb.toString();
+        return cpyArray;
     }
+
+    public int getN() {
+        return n;
+    }
+
+    public int getM() {
+        return m;
+    }
+
 }

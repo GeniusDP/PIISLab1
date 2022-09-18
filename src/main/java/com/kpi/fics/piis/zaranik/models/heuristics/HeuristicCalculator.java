@@ -1,4 +1,4 @@
-package com.kpi.fics.piis.zaranik.models.algorithms;
+package com.kpi.fics.piis.zaranik.models.heuristics;
 
 import static java.lang.Math.abs;
 

@@ -4,13 +4,13 @@ import com.kpi.fics.piis.zaranik.models.Matrix;
 import com.kpi.fics.piis.zaranik.utils.coloring.Color;
 import com.kpi.fics.piis.zaranik.utils.coloring.ColorfulPrinter;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class MatrixIOUtil {
 
-    public static Matrix readMatrix(FileInputStream from) {
+    public static Matrix readMatrix(InputStream from) {
         Scanner scanner = new Scanner(from);
         int rows = 0;
         int cols = 0;

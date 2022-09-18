@@ -1,5 +1,7 @@
 package com.kpi.fics.piis.zaranik.models.algorithms;
 
+import com.kpi.fics.piis.zaranik.models.heuristics.HeuristicCalculator;
+import com.kpi.fics.piis.zaranik.models.heuristics.HeuristicFinder;
 import com.kpi.fics.piis.zaranik.utils.IntPair;
 import com.kpi.fics.piis.zaranik.models.Matrix;
 import com.kpi.fics.piis.zaranik.models.Point;
@@ -11,7 +13,7 @@ public class AStarPerformer implements Algorithm {
     private final HeuristicFinder heuristicFinder;
 
     public AStarPerformer(HeuristicCalculator heuristicCalculator) {
-        if(heuristicCalculator == null){
+        if (heuristicCalculator == null) {
             throw new IllegalArgumentException("heuristic should not be null!");
         }
         this.heuristicCalculator = heuristicCalculator;
@@ -31,46 +33,41 @@ public class AStarPerformer implements Algorithm {
 
     @Override
     public Matrix perform(Matrix matrix, Point start, Point finish) {
-        if (!matrix.isPerformed()) {
-            matrix.setPerformed(true);
-            int[][] h = heuristicFinder.findHeuristic(matrix.getN(), matrix.getM());
+        int[][] h = heuristicFinder.findHeuristic(matrix.getN(), matrix.getM());
 
-            PriorityQueue<IntPair> open = new PriorityQueue<>();
+        PriorityQueue<IntPair> open = new PriorityQueue<>();
 
-            initArrays(matrix);
+        initArrays(matrix);
 
-            int startId = start.getPointId(matrix.getN());
-            int finishId = finish.getPointId(matrix.getN());
-            g[startId] = 0;
-            f[startId] = g[startId] + h[startId][finishId];
-            isOpenNow[startId] = true;
-            open.add(new IntPair(f[startId], startId));
+        int startId = start.getPointId(matrix.getN());
+        int finishId = finish.getPointId(matrix.getN());
+        g[startId] = 0;
+        f[startId] = g[startId] + h[startId][finishId];
+        isOpenNow[startId] = true;
+        open.add(new IntPair(f[startId], startId));
 
-            while (!open.isEmpty()) {
-                int curr = open.peek().second;
-                IntPair neighbour = convertSumFormToIndexes(curr, matrix.getN());
-                int neighbour_i = neighbour.first;
-                int neighbour_j = neighbour.second;
+        while (!open.isEmpty()) {
+            int curr = open.peek().second;
+            IntPair neighbour = IntPair.convertSumFormToIndexes(curr, matrix.getN());
+            int neighbour_i = neighbour.first;
+            int neighbour_j = neighbour.second;
 
-                //extracting current node from the heap
-                open.remove();
-                closed[curr] = true;
+            //extracting current node from the heap
+            open.remove();
+            closed[curr] = true;
 
-                relax(matrix.getArray(), curr, neighbour_i, neighbour_j - 1, open, matrix.getN(), finishId, h);
-                relax(matrix.getArray(), curr, neighbour_i, neighbour_j + 1, open, matrix.getN(), finishId, h);
-                relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j, open, matrix.getN(), finishId, h);
-                relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i, neighbour_j - 1, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i, neighbour_j + 1, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j, open, matrix.getN(), finishId, h);
 
-                relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
-                relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
-                relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
-                relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
+            relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
 
-            }
-            Matrix wayMatrix = findWayFromStartToFinish(from, matrix.getArray(), finishId);
-            return wayMatrix;
         }
-        throw new IllegalStateException("pathfinding algorithm has been performed to matrix");
+        return findWayFromStartToFinish(from, matrix.getArray(), finishId);
     }
 
     private Matrix findWayFromStartToFinish(int[] parents, int[][] array, int finishId) {
@@ -111,9 +108,6 @@ public class AStarPerformer implements Algorithm {
     }
 
 
-    private IntPair convertSumFormToIndexes(int sumForm, int n) {
-        return new IntPair(sumForm / n, sumForm % n);
-    }
 
 
     private void relax(int[][] array, int curr, int neighbour_i, int neighbour_j, PriorityQueue<IntPair> open, int n, int fin, int[][] h) {

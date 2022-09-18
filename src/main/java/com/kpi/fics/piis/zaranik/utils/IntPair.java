@@ -1,6 +1,6 @@
 package com.kpi.fics.piis.zaranik.utils;
 
-public class IntPair implements Comparable{
+public class IntPair implements Comparable<IntPair>{
     public int first;
     public int second;
 
@@ -9,9 +9,12 @@ public class IntPair implements Comparable{
         this.second = second;
     }
 
+    public static IntPair convertSumFormToIndexes(int sumForm, int n) {
+        return new IntPair(sumForm / n, sumForm % n);
+    }
+
     @Override
-    public int compareTo(Object o) {
-        IntPair another = (IntPair) o;
+    public int compareTo(IntPair another) {
         return this.first - another.first;
     }
 }
