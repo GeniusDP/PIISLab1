@@ -57,6 +57,10 @@ public class AStarPerformer extends AbstractAlgorithm {
             relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
 
         }
+
+        if(from[finishId]==-1){
+            throw new NoWayFoundException("OOOPS! NO WAY!");
+        }
         return findWayFromStartToFinish(from, matrix.getArray(), finishId);
     }
 

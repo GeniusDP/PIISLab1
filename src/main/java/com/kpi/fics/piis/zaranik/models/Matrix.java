@@ -34,4 +34,10 @@ public final class Matrix {
         return m;
     }
 
+    public boolean ceilIsObstacle(Point point){
+        int x = point.getRow();
+        int y = point.getCol();
+        return array[x][y] == -1;
+    }
+
 }

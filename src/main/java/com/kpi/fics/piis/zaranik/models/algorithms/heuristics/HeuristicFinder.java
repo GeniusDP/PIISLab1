@@ -7,7 +7,7 @@ public class HeuristicFinder {
     private final HeuristicCalculator hc;
 
     public int[][] findHeuristic(int n, int m) {
-        int[][] h = new int[n * n + m][n * n + m];
+        int[][] h = new int[n * m][n * m];
 
         for (int x1 = 0; x1 < n; x1++) {
             for (int y1 = 0; y1 < m; y1++) {

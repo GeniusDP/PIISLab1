@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.kpi.fics.piis.zaranik.Main</mainClass>
+                            <mainClass>com.kpi.fics.piis.zaranik.MainAStart</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

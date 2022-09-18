@@ -17,4 +17,8 @@ public class IntPair implements Comparable<IntPair>{
     public int compareTo(IntPair another) {
         return this.first - another.first;
     }
+
+    public static IntPair of(int first, int second){
+        return new IntPair(first, second);
+    }
 }

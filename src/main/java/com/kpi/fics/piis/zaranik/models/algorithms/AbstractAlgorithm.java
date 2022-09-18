@@ -7,7 +7,7 @@ public abstract class AbstractAlgorithm implements Algorithm {
     protected final HeuristicCalculator heuristicCalculator;
     protected final HeuristicFinder heuristicFinder;
 
-    protected AbstractAlgorithm(HeuristicCalculator heuristicCalculator) {
+    public AbstractAlgorithm(HeuristicCalculator heuristicCalculator) {
         if (heuristicCalculator == null) {
             throw new IllegalArgumentException("heuristic should not be null!");
         }
