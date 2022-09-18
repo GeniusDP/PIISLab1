@@ -44,7 +44,6 @@ public class AStarPerformer implements Algorithm {
                 open.remove();
                 closed[curr] = true;
 
-                //left
                 relax(matrix.getArray(), curr, neighbour_i, neighbour_j - 1, open, matrix.getN(), finishId, h);
                 relax(matrix.getArray(), curr, neighbour_i, neighbour_j + 1, open, matrix.getN(), finishId, h);
                 relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j, open, matrix.getN(), finishId, h);
