@@ -3,7 +3,7 @@ package com.kpi.fics.piis.zaranik;
 import com.kpi.fics.piis.zaranik.models.*;
 import com.kpi.fics.piis.zaranik.models.algorithms.AStarPerformer;
 import com.kpi.fics.piis.zaranik.models.algorithms.Algorithm;
-import com.kpi.fics.piis.zaranik.models.heuristics.HeuristicCalculator;
+import com.kpi.fics.piis.zaranik.models.algorithms.heuristics.HeuristicCalculator;
 import com.kpi.fics.piis.zaranik.utils.MatrixIOUtil;
 
 import java.io.FileInputStream;

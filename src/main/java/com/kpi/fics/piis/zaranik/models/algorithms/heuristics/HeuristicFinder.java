@@ -1,4 +1,4 @@
-package com.kpi.fics.piis.zaranik.models.heuristics;
+package com.kpi.fics.piis.zaranik.models.algorithms.heuristics;
 
 import lombok.RequiredArgsConstructor;
 

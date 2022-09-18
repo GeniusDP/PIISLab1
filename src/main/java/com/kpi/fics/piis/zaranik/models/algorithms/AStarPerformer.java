@@ -1,35 +1,25 @@
 package com.kpi.fics.piis.zaranik.models.algorithms;
 
-import com.kpi.fics.piis.zaranik.models.heuristics.HeuristicCalculator;
-import com.kpi.fics.piis.zaranik.models.heuristics.HeuristicFinder;
+import com.kpi.fics.piis.zaranik.models.algorithms.heuristics.HeuristicCalculator;
 import com.kpi.fics.piis.zaranik.utils.IntPair;
 import com.kpi.fics.piis.zaranik.models.Matrix;
 import com.kpi.fics.piis.zaranik.models.Point;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
-public class AStarPerformer implements Algorithm {
-    private final HeuristicCalculator heuristicCalculator;
-    private final HeuristicFinder heuristicFinder;
-
-    public AStarPerformer(HeuristicCalculator heuristicCalculator) {
-        if (heuristicCalculator == null) {
-            throw new IllegalArgumentException("heuristic should not be null!");
-        }
-        this.heuristicCalculator = heuristicCalculator;
-        this.heuristicFinder = new HeuristicFinder(heuristicCalculator);
-    }
-
-    public AStarPerformer() {
-        this.heuristicCalculator = HeuristicCalculator::manhattan;
-        this.heuristicFinder = new HeuristicFinder(heuristicCalculator);
-    }
+@NoArgsConstructor
+public class AStarPerformer extends AbstractAlgorithm {
 
     private boolean[] closed;
     private boolean[] isOpenNow;
     private int[] from;
     private int[] g;
     private int[] f;
+
+    public AStarPerformer(HeuristicCalculator heuristicCalculator) {
+        super(heuristicCalculator);
+    }
 
     @Override
     public Matrix perform(Matrix matrix, Point start, Point finish) {
@@ -106,8 +96,6 @@ public class AStarPerformer implements Algorithm {
         f = new int[matrix.getN() * matrix.getM()];
         Arrays.fill(f, INF);
     }
-
-
 
 
     private void relax(int[][] array, int curr, int neighbour_i, int neighbour_j, PriorityQueue<IntPair> open, int n, int fin, int[][] h) {
