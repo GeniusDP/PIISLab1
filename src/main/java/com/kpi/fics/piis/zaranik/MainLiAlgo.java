@@ -1,4 +1,4 @@
-package com.kpi.fics.piis.zaranik.utils;
+package com.kpi.fics.piis.zaranik;
 
 import com.kpi.fics.piis.zaranik.controllers.Controller;
 import com.kpi.fics.piis.zaranik.models.algorithms.Algorithm;
