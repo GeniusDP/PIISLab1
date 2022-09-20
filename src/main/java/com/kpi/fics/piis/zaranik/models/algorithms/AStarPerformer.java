@@ -72,8 +72,8 @@ public class AStarPerformer extends AbstractAlgorithm {
             index = parents[index];
             way.add(index);
         }
+        way.add(index);
         Collections.reverse(way);
-        System.out.println(way.size());
         for (int i = 0; i < way.size(); i++) {
             int y = way.get(i) / array.length;
             int x = way.get(i) % array.length;
