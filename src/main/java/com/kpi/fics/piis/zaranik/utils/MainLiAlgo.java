@@ -1,15 +1,15 @@
-package com.kpi.fics.piis.zaranik;
+package com.kpi.fics.piis.zaranik.utils;
 
 import com.kpi.fics.piis.zaranik.controllers.Controller;
-import com.kpi.fics.piis.zaranik.models.algorithms.AStarPerformer;
 import com.kpi.fics.piis.zaranik.models.algorithms.Algorithm;
+import com.kpi.fics.piis.zaranik.models.algorithms.LiAlgorithmPerformer;
 import com.kpi.fics.piis.zaranik.models.algorithms.heuristics.HeuristicCalculator;
 
-public class MainAStart {
+public class MainLiAlgo {
 
     public static void main(String[] args) {
         Controller controller = new Controller();
-        Algorithm algorithm = new AStarPerformer(HeuristicCalculator::euclid);
+        Algorithm algorithm = new LiAlgorithmPerformer(HeuristicCalculator::manhattan);
         controller.start(algorithm);
     }
 

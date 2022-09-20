@@ -4,11 +4,10 @@ import com.kpi.fics.piis.zaranik.models.Matrix;
 import com.kpi.fics.piis.zaranik.models.Point;
 import com.kpi.fics.piis.zaranik.models.algorithms.heuristics.HeuristicCalculator;
 import com.kpi.fics.piis.zaranik.utils.IntPair;
-import com.kpi.fics.piis.zaranik.utils.IntTriade;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 @NoArgsConstructor
 public class LiAlgorithmPerformer extends AbstractAlgorithm {
@@ -23,7 +22,7 @@ public class LiAlgorithmPerformer extends AbstractAlgorithm {
         int m = matrix.getM();
 
         int[][] h = heuristicFinder.findHeuristic(matrix.getN(), matrix.getM());
-        Queue<IntTriade> q = new PriorityQueue<>(Comparator.comparingInt(t -> t.third));
+        Queue<IntPair> q = new ArrayDeque<>();
         boolean[] used = new boolean[n * m];
         int[][] a = matrix.getArray();
 
@@ -31,10 +30,9 @@ public class LiAlgorithmPerformer extends AbstractAlgorithm {
         int finishId = finish.getPointId(matrix.getN());
 
 
-
-        q.add(IntTriade.of(startId, 1, h[startId][finishId]));
+        q.add(IntPair.of(startId, 1));
         while (!q.isEmpty()) {
-            IntTriade current = q.poll();
+            IntPair current = q.poll();
             int currVertexId = current.first;
             int currVertexDist = current.second;
             if (!used[currVertexId]) {
@@ -52,24 +50,21 @@ public class LiAlgorithmPerformer extends AbstractAlgorithm {
                 int upCeilId = (currX + 1) * n + currY;
                 int downCeilId = (currX - 1) * n + currY;
 
-                int heuristicFromRight = h[rightCeilId][finishId];
-                int heuristicFromLeft = h[currX * n + currY - 1][finishId];
-                int heuristicFromUp = h[(currX + 1) * n + currY][finishId];
-                int heuristicFromDown = h[(currX - 1) * n + currY][finishId];
-
-                relax(a[currX][currY + 1], rightCeilId, q, used, currVertexDist+1, heuristicFromRight);
-                relax(a[currX][currY - 1], leftCeilId, q, used, currVertexDist+1, heuristicFromLeft);
-                relax(a[currX + 1][currY], upCeilId, q, used, currVertexDist+1, heuristicFromUp);
-                relax(a[currX - 1][currY], downCeilId, q, used, currVertexDist+1, heuristicFromDown);
+                relax(a[currX][currY + 1], rightCeilId, q, used, currVertexDist + 1);
+                relax(a[currX][currY - 1], leftCeilId, q, used, currVertexDist + 1);
+                relax(a[currX + 1][currY], upCeilId, q, used, currVertexDist + 1);
+                relax(a[currX - 1][currY], downCeilId, q, used, currVertexDist + 1);
             }
         }
-
+        if(a[finishId/n][finishId%n] == 0){
+            throw new NoWayFoundException("OOOPS! NO WAY!");
+        }
         return new Matrix(a);
     }
 
-    private void relax(int ceilValue, int ceilId, Queue<IntTriade> q, boolean[] used, int dist, int heuristicEstimate) {
+    private void relax(int ceilValue, int ceilId, Queue<IntPair> q, boolean[] used, int dist) {
         if (ceilValue != -1 && !used[ceilId]) {
-            q.add(IntTriade.of(ceilId, dist, heuristicEstimate));
+            q.add(IntPair.of(ceilId, dist));
         }
     }
 

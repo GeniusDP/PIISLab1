@@ -51,9 +51,9 @@ public class AStarPerformer extends AbstractAlgorithm {
             relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j, open, matrix.getN(), finishId, h);
             relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j, open, matrix.getN(), finishId, h);
 
+            relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
             relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
             relax(matrix.getArray(), curr, neighbour_i - 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
-            relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j - 1, open, matrix.getN(), finishId, h);
             relax(matrix.getArray(), curr, neighbour_i + 1, neighbour_j + 1, open, matrix.getN(), finishId, h);
 
         }
@@ -73,6 +73,7 @@ public class AStarPerformer extends AbstractAlgorithm {
             way.add(index);
         }
         Collections.reverse(way);
+        System.out.println(way.size());
         for (int i = 0; i < way.size(); i++) {
             int y = way.get(i) / array.length;
             int x = way.get(i) % array.length;
@@ -105,7 +106,7 @@ public class AStarPerformer extends AbstractAlgorithm {
     private void relax(int[][] array, int curr, int neighbour_i, int neighbour_j, PriorityQueue<IntPair> open, int n, int fin, int[][] h) {
         if (!closed[neighbour_i * n + neighbour_j] && array[neighbour_i][neighbour_j] != -1) {
             int temp_g = g[curr] + 1;
-            if (!isOpenNow[neighbour_i * n + neighbour_j] || temp_g < g[neighbour_i * n + neighbour_j]) {
+            if (temp_g < g[neighbour_i * n + neighbour_j]) {
                 from[neighbour_i * n + neighbour_j] = curr;
                 g[neighbour_i * n + neighbour_j] = temp_g;
                 f[neighbour_i * n + neighbour_j] = g[neighbour_i * n + neighbour_j] + h[neighbour_i * n + neighbour_j][fin];
