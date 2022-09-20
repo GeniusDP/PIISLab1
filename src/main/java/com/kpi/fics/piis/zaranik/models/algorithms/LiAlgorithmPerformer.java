@@ -4,10 +4,10 @@ import com.kpi.fics.piis.zaranik.models.Matrix;
 import com.kpi.fics.piis.zaranik.models.Point;
 import com.kpi.fics.piis.zaranik.models.algorithms.heuristics.HeuristicCalculator;
 import com.kpi.fics.piis.zaranik.utils.IntPair;
+import com.kpi.fics.piis.zaranik.utils.IntTriade;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.*;
 
 @NoArgsConstructor
 public class LiAlgorithmPerformer extends AbstractAlgorithm {
@@ -45,18 +45,49 @@ public class LiAlgorithmPerformer extends AbstractAlgorithm {
                     break;
                 }
 
-                int rightCeilId = currX * n + currY + 1;
-                int leftCeilId = currX * n + currY - 1;
+                int rightCeilId = currX * n + (currY + 1);
                 int upCeilId = (currX + 1) * n + currY;
+                int leftCeilId = currX * n + (currY - 1);
                 int downCeilId = (currX - 1) * n + currY;
 
-                relax(a[currX][currY + 1], rightCeilId, q, used, currVertexDist + 1);
-                relax(a[currX][currY - 1], leftCeilId, q, used, currVertexDist + 1);
-                relax(a[currX + 1][currY], upCeilId, q, used, currVertexDist + 1);
-                relax(a[currX - 1][currY], downCeilId, q, used, currVertexDist + 1);
+                int hToRight = h[rightCeilId][finishId];
+                int hToUp = h[upCeilId][finishId];
+                int hToLeft = h[leftCeilId][finishId];
+                int hToDown = h[downCeilId][finishId];
+
+                List<IntTriade> neighbourHeuristics = new ArrayList<>();
+                neighbourHeuristics.add(IntTriade.of(hToRight, 0, 1));
+                neighbourHeuristics.add(IntTriade.of(hToUp, 1, 0));
+                neighbourHeuristics.add(IntTriade.of(hToLeft, 0, -1));
+                neighbourHeuristics.add(IntTriade.of(hToDown, -1, 0));
+
+                Collections.sort(neighbourHeuristics);
+
+                for (var x : neighbourHeuristics) {
+                    int di = x.second;
+                    int dj = x.third;
+
+                    if (di == 0 && dj == 1) {
+                        relax(a[currX][currY + 1], rightCeilId, q, used, currVertexDist + 1);
+                        continue;
+                    }
+
+                    if (di == 1 && dj == 0) {
+                        relax(a[currX + 1][currY], upCeilId, q, used, currVertexDist + 1);
+                        continue;
+                    }
+
+                    if (di == 0 && dj == -1) {
+                        relax(a[currX][currY - 1], leftCeilId, q, used, currVertexDist + 1);
+                        continue;
+                    }
+
+                    relax(a[currX - 1][currY], downCeilId, q, used, currVertexDist + 1);
+                }
+
             }
         }
-        if(a[finishId/n][finishId%n] == 0){
+        if (a[finishId / n][finishId % n] == 0) {
             throw new NoWayFoundException("OOOPS! NO WAY!");
         }
         return new Matrix(a);
